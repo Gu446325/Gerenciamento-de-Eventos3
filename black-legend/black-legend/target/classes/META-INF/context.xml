@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context>
+	<!-- disables storage of sessions across restarts -->
+	<Manager pathname="" />
+	<Resource name="BeanManager" auth="Container"
+		type="javax.enterprise.inject.spi.BeanManager" factory="org.jboss.weld.resources.ManagerObjectFactory" />
+
+	<Resource name="jdbc/PhantomDS" auth="Container"
+		factory="org.apache.naming.factory.BeanFactory" type="com.mchange.v2.c3p0.ComboPooledDataSource"
+		driverClass="org.postgresql.Driver" jdbcUrl="jdbc:postgresql://localhost:5432/black_legend_teste"
+		user="postgres" password="jarvis" minPoolSize="2" maxPoolSize="2" />
+</Context>

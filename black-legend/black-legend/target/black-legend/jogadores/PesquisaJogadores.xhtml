@@ -1,0 +1,127 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
+
+
+	<ui:define name="titulo">Titulo da pagina</ui:define>
+	<ui:define name="corpo">
+
+		<f:metadata>
+			<f:viewAction action="#{pesquisaJogadorMB.pesquisar}" />
+		</f:metadata>
+
+
+		<h:form id="frm">
+			<h1>Pesquisa de jogadores</h1>
+			<p:messages id="messages" autoUpdate="true" closable="true" />
+
+			<p:toolbar style="margin-top: 20px; margin-bottom: 20px">
+				<p:toolbarGroup>
+					<p:button value="Novo jogador"
+						outcome="/jogadores/CadastroJogadores"
+						styleClass="ui-state-highlight phantom" icon="ui-icon-person" />
+					<p:separator />
+					<p:button value="Buscar todos"
+						outcome="/jogadores/PesquisaJogadores" />
+					<p:commandButton action="#{pesquisaJogadorMB.filtro}"
+						value="Filtrar jogadores" update="tabelaJogador" />
+
+
+				</p:toolbarGroup>
+				<p:toolbarGroup align="right">
+					<p:button value="Baixar XLS" icon="ui-icon-arrowthickstop-1-s"
+						styleClass="ui-state-highlight verde" />
+
+					<p:button outcome="/Home" icon="ui-icon-home" />
+				</p:toolbarGroup>
+			</p:toolbar>
+
+			<p:panelGrid columns="2" style="width:100%;">
+				<p:outputLabel value="Nome do jogador" />
+				<p:inputText size="40" value="#{pesquisaJogadorMB.jogador.nome}" />
+				<p:outputLabel value="Valor mínimo" />
+				<p:inputText value="#{pesquisaJogadorMB.jogador.salario}"
+					styleClass="moeda">
+					<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+				</p:inputText>
+				<p:outputLabel value="Integrado a equipe" />
+				<p:selectBooleanCheckbox
+					value="#{pesquisaJogadorMB.jogador.integrado}">
+					<f:selectItem itemLabel="" />
+				</p:selectBooleanCheckbox>
+			</p:panelGrid>
+
+			<p:dataTable value="#{pesquisaJogadorMB.jogadores}" var="jogador"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				id="tabelaJogador" paginator="true" paginatorPosition="bottom"
+				rows="6" style="margin-top: 20px; margin-bottom: 20px">
+
+				<p:column headerText="Código"
+					style="text-align: center; width: 50px">
+					<p:outputLabel value="#{jogador.codigo}" />
+				</p:column>
+				<p:column headerText="Nome">
+
+					<h:outputLink
+						value="/black-legend/jogadores/CadastroJogadores.xhtml">
+						<h:graphicImage library="imagens" name="user.png"
+							style="vertical-align: bottom; margin-left: 2px; margin-right: 5px" />
+						<f:param name="jogador" value="#{jogador.codigo}" />
+					</h:outputLink>
+
+					<p:outputLabel value="#{jogador.nome}" />
+				</p:column>
+				<p:column headerText="Posição"
+					style="text-align: center; width: 200px">
+					<p:outputLabel value="#{jogador.posicao.descricao}" />
+				</p:column>
+				<p:column headerText="Salário"
+					style="text-align: right; width: 100px">
+					<p:outputLabel value="#{jogador.salario}" styleClass="moeda">
+						<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+					</p:outputLabel>
+				</p:column>
+				<p:column headerText="Transferencia"
+					style="text-align: right; width: 120px">
+					<p:outputLabel value="#{jogador.valorTransferenciaMaisEncargos}"
+						styleClass="moeda">
+						<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+					</p:outputLabel>
+				</p:column>
+				<p:column headerText="Contrato"
+					style="text-align: center; width: 70px">
+					<p:outputLabel value="#{jogador.duracaoContrato}"
+						style="#{jogador.acabando ? 'color: red' : ''}" />
+					<h:graphicImage library="imagens" name="download.png"
+						style="vertical-align: bottom; margin-left: 5px"
+						rendered="#{jogador.acabando}" />
+				</p:column>
+				<p:column headerText="Situação" width="230">
+					<h:graphicImage library="imagens" name="user_add.png"
+						style="vertical-align: bottom; margin-left: 5px"
+						rendered="#{jogador.integrado}" />
+					<h:outputLabel value="Integrado junto a equipe"
+						rendered="#{jogador.integrado}"
+						style=" margin-left: 5px;background-color:green; color:white" />
+					<h:graphicImage library="imagens" name="user_remove.png"
+						style="vertical-align: bottom; margin-left: 5px"
+						rendered="#{not jogador.integrado}" />
+					<h:outputLabel value="Não integrado"
+						rendered="#{not jogador.integrado}"
+						style=" margin-left: 5px; background-color:#B00000; color:white" />
+				</p:column>
+				<p:column style="text-align: center; width: 70px">
+					<p:button outcome="/jogadores/CadastroJogadores" value="Editar"
+						icon="ui-icon-pencil" styleClass="ui-state-highlight phantom">
+						<f:param name="jogador" value="#{jogador.codigo}" />
+					</p:button>
+
+				</p:column>
+			</p:dataTable>
+
+		</h:form>
+	</ui:define>
+</ui:composition>
