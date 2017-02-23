@@ -1,0 +1,268 @@
+@charset "utf-8";
+
+body {
+	font-size: 12px;
+	font-family: Arial, Helvetica, sans-serif;
+	margin: 0px;
+	font-weight: normal;
+	color: #B00000 !important;
+}
+
+header {
+	padding: 5px 0px;
+	margin-bottom: 20px;
+	height: 30px;
+	background-color: #3b4d64;
+	box-shadow: 0px 2px 5px #545454;
+	font-size: 12px;
+}
+
+h1 {
+	font-size: 24px;
+	font-weight: 500;
+	padding: 0px;
+	margin: 0px;
+}
+
+h2 {
+	font-size: 20px;
+	padding: 0px;
+	font-weight: 500;
+}
+
+
+
+header>div {
+	margin-left: 8px;
+}
+
+#conteudo {
+	padding: 0px 8px
+}
+
+footer {
+	background-color: #3b4d64 !important;
+	color: #fff; padding : 0px 8px;
+	margin-bottom: 10px;
+	padding: 0px 8px;
+}
+
+.rotulo {
+	width: 150px
+}
+
+.ui-panelgrid td {
+	height: 34px
+}
+
+.ajax-status {
+	position: fixed;
+	top: 55px;
+	right: 10px;
+	width: 35px;
+	height: 35px
+}
+
+.ui-selectmanycheckbox td {
+	border-width: 0px !important;
+	padding: 0px !important;
+}
+
+.ui-selectmanycheckbox td label {
+	padding-right: 10px;
+}
+
+/* Customiza TabView - início */
+.ui-tabs .ui-tabs-panel {
+	padding: 0.5em 0.2em !important;
+}
+
+.ui-tabs {
+	padding: 0px !important;
+}
+
+.ui-tabs .ui-tabs-nav {
+	margin: -1px !important;
+}
+
+.ui-tabs.ui-tabs-top>.ui-tabs-nav {
+	padding: 0px !important;
+}
+/* Customiza TabView - fim */
+
+/* Menu sistema inicio */
+.menu-sistema {
+	border: 0px !important;
+	padding: 0px !important;
+	background: none !important;
+}
+
+.menu-sistema .ui-menu-parent>a .ui-menuitem-text, .menu-sistema>.ui-menu-list>.ui-menuitem>a>.ui-menuitem-text
+	{
+	color: #ffffff !important;
+}
+
+.menu-sistema .ui-icon-triangle-1-s {
+	background: url(#{ resource [ 'imagens:seta-para-baixo.png' ]
+}
+
+)
+no-repeat
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+!
+important
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+;
+}
+/* Menu sistema fim */
+.many-checkbox td {
+	border-width: 0px !important;
+	padding: 0px !important;
+}
+
+.many-checkbox td label {
+	padding-right: 10px;
+}
+
+/* Menu sistema fim */
+.ui-state-disabled {
+	opacity: .40 !important;
+}
+/*
+=============================================================================
+
+
+Alterações pessoais do css
+
+
+=============================================================================
+
+*/
+/*cores
+
+Azul padrão
+styleClass="ui-state-highlight"
+
+Com cores personalizadas
+styleClass="ui-state-highlight verde"
+*/
+button {
+	margin-left: 5px;
+	margin-right: 5px;
+	color: #3b4d64 !important;;
+	
+}
+
+.fonte-phantom{
+	font-size: 13px;
+	font-family: Arial, Helvetica, sans-serif;
+	margin: 0px;
+	font-weight: normal;
+	color: #3b4d64 !important;
+}
+
+.fonte-red{
+	font-size: 12px;
+	font-family: Arial, Helvetica, sans-serif;
+	margin: 0px;
+	font-weight: normal;
+	color: #B00000 !important;;
+}
+
+.phantom {
+	/* 	background: #0bacb9 !important; */
+	/* 	background: #59799E !important; */
+	/* 	background: #418BCA !important; */
+	/* 	background: #006192 !important; */
+	background: #3b4d64 !important;
+	color: #fff !important;
+}
+
+.verde {
+	background: #008000 !important;
+	/* 	background: #93B167 !important; */
+	/* 	background: #5DB85B !important; */
+	color: #fff !important;
+}
+
+.laranja {
+	/* 	background: #FFD700 !important; */
+	background: #EFAD4D !important;
+	color: #fff !important;
+}
+
+.vermelho {
+	background: #B00000 !important;
+	/* 	background: #F39376 !important; */
+	/* 	background: #D95350 !important; */
+	color: #fff !important;
+}
+
+.preto {
+	background: #333333 !important;
+	color: #fff !important;
+}
+
+button {
+	font-size: 12px !important;
+	font-family: Arial, Helvetica, sans-serif !important;
+}
