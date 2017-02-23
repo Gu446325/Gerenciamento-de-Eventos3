@@ -1,0 +1,41 @@
+package br.com.dominio.pc.fabrica;
+
+import br.com.dominio.fabrica.Acessorios;
+
+public class ComputerFacade {
+
+	private Memoria memoria;
+	private HD hd;
+	private CPU cpu;
+	private Acessorios acessorios;
+	private SO so;
+
+	public ComputerFacade() {
+
+		memoria = new Memoria();
+		hd = new HD();
+		cpu = new CPU();
+		acessorios = new Acessorios();
+		so = new SO();
+	}
+
+	public void montarPC() {
+
+		System.out.println("Montando nova maquina\n");
+		
+		memoria.adicionarMemoria();
+
+		hd.adicionarHD();
+
+		cpu.adicionaProcessador();
+
+		acessorios.adicionarMouse();
+		acessorios.adicionarTeclado();
+		acessorios.adicionarMonitor();
+
+		so.instalarSO();
+
+		System.out.println("\nComputador fabricado");
+	}
+
+}

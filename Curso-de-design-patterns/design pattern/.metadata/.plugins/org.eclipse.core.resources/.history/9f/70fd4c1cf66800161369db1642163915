@@ -1,0 +1,26 @@
+package br.com.dominio;
+
+import br.com.dominio.pc.fabrica.CPU;
+import br.com.dominio.pc.fabrica.HD;
+import br.com.dominio.pc.fabrica.Memoria;
+import br.com.dominio.pc.fabrica.SO;
+
+public class Principal {
+
+	public static void main(String[] args) {
+
+		Memoria memoria = new Memoria();
+		memoria.adicionarMemoria();
+
+		HD hd = new HD();
+		hd.adicionarHD();
+
+		CPU cpu = new CPU();
+		cpu.adicionaProcessador();
+		
+		SO so = new SO();
+		so.instalarSO();
+
+	}
+
+}

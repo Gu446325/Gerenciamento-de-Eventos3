@@ -1,0 +1,14 @@
+package br.com.dominio;
+
+import br.com.dominio.pc.fabrica.ComputerFacade;
+
+public class Principal {
+
+	public static void main(String[] args) {
+
+		ComputerFacade computerFacade = new ComputerFacade();
+		computerFacade.montarPC();
+		
+	}
+
+}
