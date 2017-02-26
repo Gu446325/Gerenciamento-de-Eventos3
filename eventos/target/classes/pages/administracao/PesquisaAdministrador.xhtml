@@ -1,0 +1,75 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
+
+	<ui:define name="titulo">TriSoft</ui:define>
+
+	<ui:define name="corpo">
+		<f:metadata>
+			<o:viewParam name="usuario"
+				value="#{pesquisaAdministradorMB.usuario}" />
+			<f:viewAction action="#{pesquisaAdministradorMB.iniciar}" />
+		</f:metadata>
+
+		<h:panelGrid style="margin-top:20px;" columns="2">
+			<p:graphicImage library="imagens" name="logo.png" width="20" />
+			<h1>Pesquisa de administradores</h1>
+		</h:panelGrid>
+
+		<h:form id="frm">
+			<p:growl id="messages" autoUpdate="true" life="3000" />
+
+			<p:toolbar style="margin-top: 10px;">
+				<p:toolbarGroup>
+					<p:button value="Adicionar usuário" icon="ui-icon-plus"
+						title="Adicionar novo administrador"
+						outcome="/pages/administracao/CadastroAdministrador" />
+				</p:toolbarGroup>
+				<p:toolbarGroup align="right">
+					<p:button value="Administração"
+						title="Adicionar novo administrador"
+						outcome="/pages/administracao/Adm" />
+					<p:button outcome="/Home" icon="ui-icon-home"
+						title="Página inicial" />
+				</p:toolbarGroup>
+			</p:toolbar>
+
+			<p:dataTable
+				paginatorTemplate="Linhas por página {RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {CurrentPageReport}  "
+				style="margin-top: 10px" paginator="true" paginatorPosition="bottom"
+				value="#{pesquisaAdministradorMB.usuarios}" var="u"
+				id="tabelaEvento" paginatorAlwaysVisible="true" rows="20"
+				lazy="true" emptyMessage="Nenhuma empresa ou instituição no momento"
+				rowsPerPageTemplate="10,30">
+
+				<p:column headerText="ID" width="60" style="text-align:center">
+					<p:outputLabel value="#{u.id}" />
+				</p:column>
+
+				<p:column headerText="Email">
+					<p:outputLabel value="#{u.email}" />
+				</p:column>
+
+				<p:column headerText="Nome">
+					<p:outputLabel value="#{u.nome}" />
+				</p:column>
+
+				<p:column headerText="Remover" width="60" style="text-align:center">
+					<p:commandButton icon="ui-icon-trash" update="frm"
+						title="Remover usuário do sistema"
+						styleClass="ui-state-highlight vermelho"
+						action="#{pesquisaAdministradorMB.remover}" process="@this">
+						<p:confirm icon="ui-icon-alert" header="Excluir usuário"
+							message="Remover usuário do sistema?" />
+						<f:setPropertyActionListener value="#{u}"
+							target="#{pesquisaAdministradorMB.usuario}" />
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+		</h:form>
+
+	</ui:define>
+</ui:composition>

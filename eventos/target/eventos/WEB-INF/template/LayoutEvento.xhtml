@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title><ui:insert name="titulo">TriSoft</ui:insert></title>
+
+	<script>
+		PrimeFaces.locales['pt'] = {
+			closeText : 'Fechar',
+			prevText : 'Anterior',
+			nextText : 'Próximo',
+			currentText : 'Começo',
+			monthNames : [ 'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio',
+					'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro',
+					'Novembro', 'Dezembro' ],
+			monthNamesShort : [ 'Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun',
+					'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez' ],
+			dayNames : [ 'Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta',
+					'Sexta', 'Sábado' ],
+			dayNamesShort : [ 'Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb' ],
+			dayNamesMin : [ 'D', 'S', 'T', 'Q', 'Q', 'S', 'S' ],
+			weekHeader : 'Semana',
+			firstDay : 0,
+			isRTL : false,
+			showMonthAfterYear : false,
+			yearSuffix : '',
+			timeOnlyTitle : 'Só Horas',
+			timeText : 'Tempo',
+			hourText : 'Hora',
+			minuteText : 'Minuto',
+			secondText : 'Segundo',
+			ampm : false,
+			month : 'Mês',
+			week : 'Semana',
+			day : 'Dia',
+			allDayText : 'Todo o Dia'
+		};
+	</script>
+
+	<h:outputStylesheet library="css" name="wildfly.css" />
+	<h:outputScript library="js" name="jquery.maskMoney.js" />
+</h:head>
+
+<h:body>
+	<p:ajaxStatus styleClass="ajax-status">
+		<f:facet name="start">
+			<h:graphicImage library="imagens" name="carregando.gif" />
+		</f:facet>
+		<f:facet name="complete">
+			<h:outputText value="" />
+		</f:facet>
+	</p:ajaxStatus>
+
+	<header>
+		<div style="float: left">
+			<h:link outcome="/Home">
+				<h:graphicImage library="imagens" name="branco.png" />
+			</h:link>
+		</div>
+
+		<div style="float: right; margin-right: 110px">
+			<h:form style="display: inline-block">
+				<p:menubar styleClass="menu-sistema">
+
+					<p:submenu label="Participante">
+					</p:submenu>
+
+					<p:submenu label="Empresa/Instituição">
+						<p:menuitem value="Evento" outcome="/pages/empresa/PesquisaEvento" />
+						<p:menuitem value="Gerencia [temporario]"
+							outcome="/pages/empresa/Evento" />
+					</p:submenu>
+
+					<p:menuitem value="Sair" />
+				</p:menubar>
+			</h:form>
+		</div>
+		<div style="clear: both"></div>
+	</header>
+
+	<p:layout>
+		<p:layoutUnit position="west" header="Texto para teste" size="300">
+			<h:form>
+				<p:panelMenu>
+					<p:submenu label="Atividade">
+						<p:menuitem value="Cadastrar atividade" />
+						<p:menuitem value="Pesquisar atividade" />
+					</p:submenu>
+					<p:submenu label="Certificados">
+						<p:menuitem value="Gerar certificados" />
+					</p:submenu>
+					<p:submenu label="Eventos">
+						<p:menuitem value="Pesquisa" outcome="/pages/empresa/PesquisaEvento">
+							<f:param name="evento" value="#{e.id}" />
+						</p:menuitem>
+						<p:menuitem value="Cadastro" outcome="/pages/empresa/CadastroEventos"/>
+					</p:submenu>
+				</p:panelMenu>
+			</h:form>
+		</p:layoutUnit>
+		<p:layoutUnit position="center">
+			<div id="conteudo">
+				<ui:insert name="corpo" />
+			</div>
+		</p:layoutUnit>
+	</p:layout>
+
+	<!-- 	<p:separator style="margin-top: 3px" /> -->
+
+	<!-- 	<footer> -->
+	<!-- 		<h4>PES MANAGER</h4> -->
+	<!-- 	</footer> -->
+
+
+	<script>
+		function configurarMoeda() {
+			$(".moeda").maskMoney({
+				decimal : ',',
+				thousands : '.',
+				allowZero : true
+			});
+		}
+		$(document).ready(function() {
+			configurarMoeda();
+		});
+	</script>
+
+</h:body>
+
+</html>

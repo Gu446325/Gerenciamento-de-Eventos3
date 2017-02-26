@@ -1,0 +1,118 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
+
+	<ui:define name="titulo">TriSoft</ui:define>
+
+	<ui:define name="corpo">
+		<f:metadata>
+			<o:viewParam name="instituicao"
+				value="#{edicaoInstituicaoMB.instituicao}" />
+			<f:viewAction action="#{edicaoInstituicaoMB.iniciar}" />
+		</f:metadata>
+
+		<h:panelGrid style="margin-top:20px;" columns="2">
+			<p:graphicImage library="imagens" name="logo.png" />
+			<h1>TriSoft</h1>
+		</h:panelGrid>
+
+		<h:form id="frm" enctype="multipart/form-data">
+			<p:growl id="messages" life="20000" autoUpdate="true" />
+
+			<p:toolbar style="margin-top: 10px;">
+				<p:toolbarGroup>
+					<p:commandButton value="Salvar dados"
+						action="#{edicaoInstituicaoMB.salvar}"
+						styleClass="ui-state-highlight phantom" update="frm" />
+				</p:toolbarGroup>
+				<p:toolbarGroup align="right">
+					<p:button outcome="/Home" icon="ui-icon-home"
+						title="Página inicial" />
+				</p:toolbarGroup>
+			</p:toolbar>
+
+
+			<p:panelGrid columns="2" style="width: 100%; margin-top: 20px"
+				layout="grid" columnClasses="ui-grid-col-2, ui-grid-col-6"
+				styleClass="panelgrid-noborder">
+				<p:outputLabel value="Código" />
+				<p:inputText value="#{edicaoInstituicaoMB.instituicao.id}"
+					readonly="true" size="1" />
+
+				<p:outputLabel value="Nome" for="nome" />
+				<p:inputText style="margin-top:10px; " size="40"
+					placeholder="Exemplo: Faculdade do Brasil" id="nome"
+					required="true" value="#{edicaoInstituicaoMB.instituicao.nome}"
+					maxlength="80" />
+
+				<p:outputLabel value="Endereço" for="endereco" />
+				<p:inputText style="margin-top:10px; " size="40" id="endereco"
+					required="true" placeholder="Exemplo: Av 7 de Setembro"
+					value="#{edicaoInstituicaoMB.instituicao.endereco}" maxlength="50" />
+
+				<p:outputLabel value="Cidade" for="cidade" />
+				<p:inputText style="margin-top:10px; " size="40" id="cidade"
+					required="true" placeholder="Nome de sua cidade"
+					value="#{edicaoInstituicaoMB.instituicao.cidade}" maxlength="50" />
+
+				<p:outputLabel value="CNPJ" for="cnpj" />
+				<p:inputMask mask="99.999.999/9999-99" required="true"
+					style="margin-top:10px; " size="15" placeholder="CNPJ"
+					value="#{edicaoInstituicaoMB.instituicao.cnpj}" id="cnpj"
+					disabled="true" />
+
+				<p:outputLabel value="E-mail de acesso" for="email" />
+				<p:inputText style="margin-top:10px; " size="40" id="email"
+					required="true" placeholder="Exemplo: faculdade.brasil@hotmail.com"
+					value="#{edicaoInstituicaoMB.instituicao.email}" maxlength="50"
+					disabled="true" />
+
+				<p:commandButton icon="ui-icon-extlink" title="Logo da empresa"
+					value="Logomarca" process="@this"
+					oncomplete="PF('mostraLogotipo').show()"
+					update=":frm:mostraLogotipoDialog">
+					<f:setPropertyActionListener
+						target="#{imagemMB.instituicaoSelecionada}"
+						value="#{edicaoInstituicaoMB.instituicao}" />
+				</p:commandButton>
+
+
+				<p:fileUpload fileUploadListener="#{edicaoInstituicaoMB.logotipo}"
+					sizeLimit="100000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
+					mode="advanced" style="margin-top:10px;" />
+
+				<p:commandButton icon="ui-icon-extlink" title="Assinatura"
+					value="Assinatura" process="@this"
+					oncomplete="PF('mostraAssinatura').show()"
+					update=":frm:mostraAssinaturaDialog">
+					<f:setPropertyActionListener
+						target="#{imagemMB.instituicaoSelecionada}"
+						value="#{edicaoInstituicaoMB.instituicao}" />
+				</p:commandButton>
+
+				<p:fileUpload fileUploadListener="#{edicaoInstituicaoMB.assinatura}"
+					sizeLimit="100000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
+					mode="advanced" style="margin-top:10px;" />
+
+
+
+			</p:panelGrid>
+
+			<p:dialog id="mostraLogotipoDialog" header="Logo da empresa"
+				widgetVar="mostraLogotipo" modal="true" closeOnEscape="true">
+				<p:graphicImage value="#{imagemMB.logotipo}" cache="false" />
+			</p:dialog>
+
+			<p:dialog id="mostraAssinaturaDialog" header="Assinatura"
+				widgetVar="mostraAssinatura" modal="true" closeOnEscape="true">
+				<p:graphicImage value="#{imagemMB.assinatura}" cache="false" />
+			</p:dialog>
+
+
+		</h:form>
+
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,118 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
+
+	<ui:define name="titulo">TriSoft</ui:define>
+
+	<ui:define name="corpo">
+		<f:metadata>
+			<o:viewParam name="usuario" value="#{pesquisaUsuarioMB.usuario}" />
+			<f:viewAction action="#{pesquisaUsuarioMB.iniciar}" />
+		</f:metadata>
+
+		<h:panelGrid columns="2">
+			<p:graphicImage library="imagens" name="logo.png"
+				style="margin-right: 10px;" />
+			<h1>Usuários do sistema</h1>
+		</h:panelGrid>
+
+		<h:form id="frm">
+			<p:growl id="messages" autoUpdate="true" closable="true" />
+
+			<p:toolbar style="margin-top: 10px;">
+				<p:toolbarGroup>
+					<p:commandButton value="Novo usuário" icon="ui-icon-plus"
+						title="Cadastrar novo usuário"
+						styleClass="ui-state-highlight phantom" process="@this"
+						update="id-dialogo" oncomplete="PF('widgetVar-dialogo').show()">
+						<p:resetInput target="id-dialogo" />
+					</p:commandButton>
+
+				</p:toolbarGroup>
+				<p:toolbarGroup align="right">
+					<p:button value="Administração"
+						title="Adicionar novo administrador"
+						outcome="/pages/administracao/Adm" />
+					<p:button outcome="/Home" icon="ui-icon-home"
+						title="Página inicial" />
+				</p:toolbarGroup>
+			</p:toolbar>
+
+			<p:dataTable style="margin-top:20px" reflow="true"
+				value="#{pesquisaUsuarioMB.usuarios}" var="usuario" id="id-tabela"
+				emptyMessage="Nenhum usuário cadastrado" paginator="true"
+				paginatorPosition="bottom" paginatorAlwaysVisible="true" rows="20"
+				paginatorTemplate="Linhas por página {RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {CurrentPageReport}  ">
+
+				<f:facet name="header">Lista de usuários</f:facet>
+
+				<p:column headerText="#" style="text-align: center; width: 40px">
+					<p:graphicImage name="Admin-icon.png" library="imagens" />
+				</p:column>
+
+				<p:column headerText="Código" width="100"
+					style="text-align: center;">
+					<p:outputLabel value=" #{usuario.id}" />
+				</p:column>
+
+				<p:column headerText="Nome">
+					<p:outputLabel value="#{usuario.nome}" />
+				</p:column>
+
+				<p:column headerText="E-mail de acesso">
+					<p:outputLabel value="#{usuario.email}" />
+				</p:column>
+
+				<p:column width="70" style="text-align: center;"
+					headerText="Remover">
+
+					<p:commandButton icon="ui-icon-trash" title="Remover usuário"
+						styleClass="ui-state-highlight vermelho"
+						action="#{pesquisaUsuarioMB.remover}" process="@this" update="frm">
+						<p:confirm icon="ui-icon-alert" header="Excluir usuário"
+							message="Remover usuário do sistema?" />
+						<f:setPropertyActionListener value="#{usuario}"
+							target="#{pesquisaUsuarioMB.usuario}" />
+					</p:commandButton>
+
+				</p:column>
+			</p:dataTable>
+
+			<p:dialog widgetVar="widgetVar-dialogo" id="id-dialogo" modal="true"
+				resizable="false" header="Novo usuário" closeOnEscape="true"
+				showEffect="clip" hideEffect="clip">
+
+
+				<h:panelGrid>
+					<p:inputText style="margin-top:10px; padding: 7px;" size="40"
+						placeholder="Nome do usuário" maxlength="80"
+						value="#{pesquisaUsuarioMB.usuario.nome}" />
+
+					<p:inputText style="margin-top:10px; padding: 7px;" size="40"
+						placeholder="E-mail de usuário" maxlength="50"
+						value="#{pesquisaUsuarioMB.usuario.email}" />
+
+					<p:password style="margin-top:10px; padding: 7px;" size="40"
+						id="pw1" feedback="true" promptLabel="Digite sua senha"
+						match="pw2" inline="true" weakLabel="Senha fraca"
+						goodLabel="Senha média" strongLabel="Senha forte" label="Pass 1"
+						placeholder="Senha de acesso"
+						value="#{pesquisaUsuarioMB.usuario.senha}" />
+
+					<p:password id="pw2" label="Pass 2"
+						placeholder="Redigite sua senha"
+						style="margin-top:10px; padding: 7px;" size="40" />
+
+					<p:commandButton value="Cadastrar" icon="ui-icon-check"
+						style="margin-top: 15px; padding: 7px "
+						styleClass="ui-state-highlight phantom" update="frm"
+						action="#{pesquisaUsuarioMB.adicionar}" />
+				</h:panelGrid>
+			</p:dialog>
+
+		</h:form>
+	</ui:define>
+</ui:composition>

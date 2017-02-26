@@ -1,0 +1,231 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
+
+	<ui:define name="titulo">TriSoft</ui:define>
+
+	<ui:define name="corpo">
+		<f:metadata>
+			<o:viewParam name="evento" value="#{eventoMB.evento}" />
+			<f:viewAction action="#{eventoMB.iniciar}" />
+		</f:metadata>
+
+		<h:panelGrid columns="2">
+			<p:graphicImage library="imagens" name="logo.png"
+				style="margin-right: 10px;" />
+			<h1>#{eventoMB.evento.nome}</h1>
+		</h:panelGrid>
+
+
+		<h:form id="frm">
+			<p:growl id="messages" autoUpdate="true" closable="true" />
+
+			<p:toolbar style="margin-top: 10px;">
+				<p:toolbarGroup>
+					<p:commandButton icon="ui-icon-script" value="Banner"
+						action="#{eventoMB.emitir}" ajax="false">
+						<f:setPropertyActionListener value="#{eventoMB.evento}"
+							target="#{eventoMB.evento}" />
+					</p:commandButton>
+
+				</p:toolbarGroup>
+				<p:toolbarGroup align="right">
+					<p:button value="Lista de eventos" title="Menu principal"
+						icon="ui-icon-newwin" outcome="/pages/empresa/PesquisaEvento" />
+					<p:commandButton value="Ajuda" title="Ajuda" process="@this"
+						update="frm:id-dialogo"
+						oncomplete="PF('widgetVar-dialogo').show()">
+					</p:commandButton>
+
+					<p:separator />
+					<p:button outcome="/Home" icon="ui-icon-home"
+						title="Página inicial" />
+				</p:toolbarGroup>
+			</p:toolbar>
+
+
+			<p:layout style="margin-top:20px;">
+
+				<p:layoutUnit position="west" size="300" header="Menu"
+					resizable="true" collapsible="true">
+
+					<h:panelGrid columns="1" style="width: 100%;">
+						<p:menu style="align: left; width: 98%;">
+
+							<p:menuitem icon="ui-icon-folder-open" value="Atividades"
+								url="/pages/empresa/PesquisaAtividade.xhtml?evento=#{eventoMB.evento.id}" />
+
+							<p:separator />
+
+							<p:menuitem icon="ui-icon-person" value="Participantes"
+								url="/pages/empresa/PesquisaInscricaoEvento.xhtml?evento=#{eventoMB.evento.id}" />
+
+							<p:menuitem icon="ui-icon-pencil" value="Atualizar evento"
+								url="/pages/empresa/CadastroEventos.xhtml?evento=#{eventoMB.evento.id}" />
+
+							<p:menuitem icon="ui-icon-folder-open"
+								value="Apresentação de trabalhos" disabled="true" />
+
+							<p:menuitem icon="ui-icon-cart" value="Vendas" disabled="true" />
+
+							<p:menuitem icon="ui-icon-comment" value="Informações"
+								disabled="true" />
+
+							<p:menuitem icon="ui-icon-star" value="Sorteio" disabled="true" />
+
+							<p:menuitem icon="ui-icon-note" value="Agenda" disabled="true" />
+
+							<p:menuitem icon="ui-icon-heart"
+								value="Situação de pgto adms do sistema" disabled="true" />
+						</p:menu>
+
+
+
+						<p:panel style="width:97%; verdes" styleClass="phantom">
+							<h3 style="color: #FFF; text-align: right;">Valor da tarifa:
+								R$ #{eventoMB.totalTarifa}</h3>
+							<h2 style="color: #FFF; text-align: right;">Valor total: R$
+								#{eventoMB.totalAtividades}</h2>
+						</p:panel>
+					</h:panelGrid>
+
+
+				</p:layoutUnit>
+
+				<p:layoutUnit position="center"
+					header="Participantes confirmados ou com pagamento efetuado">
+
+					<h:panelGrid columns="4">
+						<p:commandButton value="Baixar Planilha"
+							icon="ui-icon-arrowstop-1-s" ajax="false" style="margin:7px;">
+							<p:dataExporter target="tabelaParticipante" type="xls"
+								fileName="Planilha de custos" />
+						</p:commandButton>
+						<p:button value="Gerar boleto" disabled="true" />
+
+						<h:panelGrid columns="3">
+							<h3 style="align: text-right">Status:</h3>
+							<p:graphicImage name="green.png" library="imagens"
+								rendered="#{eventoMB.evento.status == 'RECEBIDO'}" />
+							<p:outputLabel value="#{eventoMB.evento.status.descricao}"
+								rendered="#{eventoMB.evento.status == 'RECEBIDO'}"
+								style="color: GREEN;align:text-right" />
+
+							<p:graphicImage name="red.png" library="imagens"
+								rendered="#{eventoMB.evento.status == 'PENDENTE'}" />
+							<p:outputLabel value="#{eventoMB.evento.status.descricao}"
+								rendered="#{eventoMB.evento.status == 'PENDENTE'}"
+								style="color: RED;align:text-right" />
+						</h:panelGrid>
+					</h:panelGrid>
+
+					<p:dataTable value="#{eventoMB.participanteConfirmadoLazy}" var="p"
+						style="text-align: center;" id="tabelaParticipante"
+						paginator="true" paginatorPosition="bottom"
+						paginatorAlwaysVisible="true" rows="20"
+						rowsPerPageTemplate="20, 50, 100"
+						emptyMessage="Nenhum participante presente ou com inscrição paga"
+						lazy="true"
+						paginatorTemplate="Linhas por página {RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {CurrentPageReport}  ">
+
+						<p:column headerText="Nome do participante"
+							style="text-align: left;">
+							<p:outputLabel value="#{p.id.participante.nome}" />
+						</p:column>
+
+						<p:column headerText="Atividade" style="text-align: left;">
+							<p:link value="#{p.id.atividade.nome}" style="text-decoration:none; "
+								outcome="/pages/empresa/PesquisaInscricaoAtividade.xhtml?atividade=#{p.id.atividade.id}" />
+						</p:column>
+
+						<p:column headerText="%" style="text-align: center;width:40px">
+							<p:outputLabel value="#{p.percentual}%" />
+						</p:column>
+
+						<p:column headerText="Inscrição"
+							style="text-align: right; width: 80px">
+							<p:outputLabel value="#{p.valorInscricao}">
+								<f:convertNumber type="currency" />
+							</p:outputLabel>
+						</p:column>
+
+						<p:column headerText="Tarifa"
+							style="text-align: right; width: 80px">
+							<p:outputLabel value="#{p.tarifa}">
+								<f:convertNumber type="currency" />
+							</p:outputLabel>
+						</p:column>
+
+						<p:columnGroup type="footer">
+							<p:row>
+								<p:column footerText="Totais: " style="text-align:right"
+									colspan="3" />
+								<p:column footerText="R$ #{eventoMB.totalAtividades}"
+									style="color:green;text-align:right;" />
+								<p:column footerText="R$ #{eventoMB.totalTarifa}"
+									style="color:red;text-align:right;" />
+							</p:row>
+						</p:columnGroup>
+
+					</p:dataTable>
+				</p:layoutUnit>
+			</p:layout>
+
+
+			<p:dialog widgetVar="widgetVar-dialogo" id="id-dialogo" modal="true"
+				resizable="false" header="Ajuda" closeOnEscape="true"
+				showEffect="clip" hideEffect="clip" width="800">
+
+				<h:panelGrid columns="2">
+					<p:graphicImage library="imagens" name="logo.png"
+						style="margin-right: 10px;" />
+					<h3>Criando eventos</h3>
+					<p:outputLabel />
+				Se você está nesta tela significa que seu evento já foi
+				criado com sucesso.
+				</h:panelGrid>
+				<p:separator />
+
+				<h:panelGrid columns="2">
+					<p:graphicImage library="imagens" name="logo.png"
+						style="margin-right: 10px;" />
+					<h3>Adicionando participantes</h3>
+					<p:outputLabel />
+				No menu lateral selecione 'Participantes' e adicione
+				pessoas que irão participar do evento. Caso o participante não
+				esteja cadastrado no sistema, adicione-o usando a opção 'Participante/Aluno' 
+				no menu localizado no canto superior direito).
+				</h:panelGrid>
+				<p:separator />
+
+				<h:panelGrid columns="2">
+					<p:graphicImage library="imagens" name="logo.png"
+						style="margin-right: 10px;" />
+					<h3>Criando suas atividades</h3>
+					<p:outputLabel />
+				No mesmo menu ao lado, selecione 'Atividades' e crie as
+				atividades que irão ocorrer em seu evento.
+				</h:panelGrid>
+				<p:separator />
+
+				<h:panelGrid columns="2">
+					<p:graphicImage library="imagens" name="logo.png"
+						style="margin-right: 10px;" />
+					<h3>Gerenciando as atividades</h3>
+					<p:outputLabel />
+				Entre na atividade e selecione a opção 'Inscrição e credenciamento'. 
+				Inscreva o participante selecionado anteriormente na sua atividade.
+				No ato da inscrição você poderá definir se ele pagará o valor completo (100%) 
+				ou se terá algum acréscimo ou redução.
+				Nesta tela de credenciamento você poderá confirmar presença e pagamento
+				do participante. 
+				</h:panelGrid>
+
+			</p:dialog>
+
+		</h:form>
+	</ui:define>
+</ui:composition>

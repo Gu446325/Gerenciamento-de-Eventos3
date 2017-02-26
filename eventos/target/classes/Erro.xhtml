@@ -1,0 +1,24 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
+
+	<ui:define name="titulo">TriSoft</ui:define>
+
+	<ui:define name="corpo">
+
+		<h:body styleClass="denied">
+
+			<h:panelGrid columns="2" style="width:100%">
+				<p:graphicImage library="imagens" name="denied.png" />
+				<h1 style="font-size: 40px;">ops!</h1>
+				<h1>Ocorreu um erro ao processar seu requisição</h1>
+			</h:panelGrid>
+
+		</h:body>
+
+
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,96 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
+
+	<ui:define name="titulo">TriSoft</ui:define>
+
+	<ui:define name="corpo">
+		<f:metadata>
+			<o:viewParam name="participanteAtividade"
+				value="#{minhasAtividadesMB.participanteAtividade}" />
+			<f:viewAction action="#{minhasAtividadesMB.iniciar}" />
+		</f:metadata>
+
+		<h:panelGrid columns="2">
+			<p:graphicImage library="imagens" name="logo.png"
+				style="margin-right: 10px;" />
+			<h1>Minhas atividades</h1>
+		</h:panelGrid>
+
+		<h:form id="frm">
+			<p:growl id="messages" autoUpdate="true" life="3000" />
+
+			<p:toolbar style="margin-top: 10px;">
+				<p:toolbarGroup>
+					<!-- <p:selectBooleanCheckbox itemLabel="Somente atividades concluídas" /> -->
+				</p:toolbarGroup>
+				<p:toolbarGroup align="right">
+					<p:button outcome="/Home" icon="ui-icon-home"
+						title="Página inicial" />
+				</p:toolbarGroup>
+			</p:toolbar>
+
+			<p:dataTable
+				paginatorTemplate="Linhas por página {RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {CurrentPageReport}  "
+				lazy="true" value="#{minhasAtividadesMB.atividadesLazy}" var="a"
+				style="margin-top: 20px" paginator="true" paginatorPosition="bottom"
+				id="tabelaAtividade" paginatorAlwaysVisible="true" rows="20"
+				emptyMessage="Você não está inscrito em nenhuma atividade"
+				rowsPerPageTemplate="20,30,50">
+
+				<p:column headerText="Pago" style="text-align:center; width: 40px">
+					<p:graphicImage name="neutro.png" library="imagens"
+						rendered="#{a.atividadePaga}" />
+					<p:graphicImage name="red.png" library="imagens"
+						rendered="#{not a.atividadePaga}" />
+				</p:column>
+
+				<p:column headerText="Presença"
+					style="text-align:center; width: 60px">
+					<p:graphicImage name="neutro.png" library="imagens"
+						rendered="#{a.presenteNaAtividade}" />
+					<p:graphicImage name="red.png" library="imagens"
+						rendered="#{not a.presenteNaAtividade}" />
+				</p:column>
+
+
+				<p:column headerText="Atividade">
+					<h:outputText value="#{a.id.atividade.nome}" />
+				</p:column>
+				<p:column headerText="Evento">
+					<h:outputText value="#{a.id.atividade.evento.nome}" />
+				</p:column>
+				<p:column headerText="Data" style="text-align:center; width: 60px">
+					<h:outputText value="#{a.id.atividade.dataDeInicio}">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</h:outputText>
+				</p:column>
+
+				<!-- 				<p:column headerText="Boleto" style="text-align:center; width: 90px"> -->
+				<!-- 					<p:button value="Gerar" disabled="#{a.atividadePaga}" /> -->
+				<!-- 				</p:column> -->
+
+
+				<p:column headerText="Status" style="text-align:center; width: 60px">
+					<p:graphicImage name="neutro.png" library="imagens"
+						rendered="#{a.id.atividade.evento.status == 'RECEBIDO'}" />
+					<p:graphicImage name="red.png" library="imagens"
+						rendered="#{a.id.atividade.evento.status == 'PENDENTE'}" />
+				</p:column>
+
+				<p:column headerText="Certificado"
+					style="text-align:center; width: 90px">
+					<p:commandButton value="Gerar" icon="ui-icon-script"
+						disabled="#{a.id.atividade.evento.status != 'RECEBIDO' or not a.atividadePaga or not a.presenteNaAtividade}"
+						action="#{minhasAtividadesMB.emitir(a.id.atividade.id)}"
+						ajax="false" />
+				</p:column>
+			</p:dataTable>
+
+		</h:form>
+
+	</ui:define>
+</ui:composition>
