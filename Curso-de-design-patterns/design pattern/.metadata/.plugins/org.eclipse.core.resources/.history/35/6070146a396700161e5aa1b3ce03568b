@@ -1,5 +1,0 @@
-package br.com.dominio.strategy;
-
-public interface StrategyMath {
-
-}
